@@ -90,9 +90,10 @@ function Chat({ docId, docReady }) {
     try {
       const res = await sendChat(docId, q)
       setMessages(m => [...m, res.data])
-    } catch {
-      setMessages(m => [...m, { id: Date.now() + 1, role: 'assistant', content: 'Sorry, something went wrong.' }])
-    }
+    } catch (err) {
+  const msg = err.response?.data?.detail || 'Sorry, something went wrong.'
+  setMessages(m => [...m, { id: Date.now() + 1, role: 'assistant', content: msg }])
+}
     setSending(false)
   }
 

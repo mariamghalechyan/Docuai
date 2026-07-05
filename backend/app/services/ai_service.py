@@ -20,9 +20,14 @@ def _call_gemini(prompt: str) -> str:
         headers={"Content-Type": "application/json"},
         method="POST"
     )
-    with urllib.request.urlopen(req) as resp:
-        data = json.loads(resp.read())
-        return data["candidates"][0]["content"]["parts"][0]["text"].strip()
+    try:
+        with urllib.request.urlopen(req) as resp:
+            data = json.loads(resp.read())
+            return data["candidates"][0]["content"]["parts"][0]["text"].strip()
+    except urllib.error.HTTPError as e:
+        if e.code == 429:
+            raise Exception("This demo runs on a free-tier AI quota that's temporarily exhausted. Please try again in a few minutes.")
+        raise
 
 
 def summarise_document(raw_text: str) -> str:
