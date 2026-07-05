@@ -189,17 +189,21 @@ export default function Dashboard() {
     e.target.value = ''
   }
 
-  const handleDelete = async (e, docId) => {
-    e.stopPropagation()
-    if (!confirm('Delete this document?')) return
-    try {
-      await deleteDocument(docId)
-      setDocs(d => d.filter(x => x.id !== docId))
-      if (selected?.id === docId) setSelected(null)
-    } catch (err) {
-      alert('Delete failed: ' + (err.response?.data?.detail || err.message))
+ const handleDelete = async (e, docId) => {
+  e.stopPropagation()
+  if (!confirm('Delete this document?')) return
+  try {
+    await deleteDocument(docId)
+    setDocs(d => d.filter(x => x.id !== docId))
+    if (selected?.id === docId) {
+      setSelected(null)
+      setFields([])
+      setFlags([])
     }
+  } catch (err) {
+    alert('Delete failed: ' + (err.response?.data?.detail || err.message))
   }
+}
 
   return (
     <div style={{ display: 'flex', height: '100vh', fontFamily: 'system-ui, sans-serif', fontSize: 14, color: '#1a1a18', overflow: 'hidden' }}>
