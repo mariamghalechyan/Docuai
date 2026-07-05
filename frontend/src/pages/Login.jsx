@@ -105,15 +105,7 @@ export default function Login() {
           </p>
         </div>
 
-        {/* Stamp mark, bottom right of the card */}
-        <div style={{
-          position: 'absolute', bottom: -16, right: 24, transform: 'rotate(-6deg)',
-          border: '2px solid #C0392B', color: '#C0392B', borderRadius: 4,
-          padding: '3px 10px', fontFamily: "'IBM Plex Mono', monospace", fontSize: 11,
-          fontWeight: 500, letterSpacing: '0.08em', opacity: 0.85, background: 'rgba(251,249,243,0.9)'
-        }}>
-          AI-INDEXED
-        </div>
+       
       </div>
     </div>
   )
