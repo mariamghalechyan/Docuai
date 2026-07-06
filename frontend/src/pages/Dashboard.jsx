@@ -224,7 +224,10 @@ export default function Dashboard() {
           const r = await getDocument(doc.id)
           setSelected(r.data)
           setDocs(d => d.map(x => x.id === doc.id ? r.data : x))
-          if (r.data.status === 'done') { clearInterval(pollRef.current); loadDocDetails(doc.id) }
+          if (r.data.status === 'done' || r.data.status === 'error') {
+  clearInterval(pollRef.current)
+  if (r.data.status === 'done') loadDocDetails(doc.id)
+}
         } catch {}
       }, 3000)
     }

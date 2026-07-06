@@ -25,6 +25,8 @@ def _call_gemini(prompt: str) -> str:
             data = json.loads(resp.read())
             return data["candidates"][0]["content"]["parts"][0]["text"].strip()
     except urllib.error.HTTPError as e:
+        body = e.read().decode() if e.fp else str(e)
+        print(f"[GEMINI RAW ERROR {e.code}] {body}")
         if e.code == 429:
             raise Exception("This demo runs on a free-tier AI quota that's temporarily exhausted. Please try again in a few minutes.")
         raise
