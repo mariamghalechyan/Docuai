@@ -21,6 +21,10 @@ def _call_gemini(prompt: str) -> str:
         method="POST"
     )
     try:
+        with urllib.request.urlopen(req) as resp:
+            data = json.loads(resp.read())
+            
+            try:
                 return data["candidates"][0]["content"]["parts"][0]["text"].strip()
             except (KeyError, IndexError) as parse_err:
                 print(f"[PARSING ERROR] Gemini JSON structure was unexpected: {data}")
