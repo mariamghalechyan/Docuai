@@ -21,14 +21,14 @@ def _call_gemini(prompt: str) -> str:
         method="POST"
     )
     try:
-        with urllib.request.urlopen(req) as resp:
-            data = json.loads(resp.read())
-            return data["candidates"][0]["content"]["parts"][0]["text"].strip()
+                return data["candidates"][0]["content"]["parts"][0]["text"].strip()
+            except (KeyError, IndexError) as parse_err:
+                print(f"[PARSING ERROR] Gemini JSON structure was unexpected: {data}")
+                raise Exception("Failed to parse response structure from Gemini 2.5.")
+                
     except urllib.error.HTTPError as e:
         body = e.read().decode() if e.fp else str(e)
         print(f"[GEMINI RAW ERROR {e.code}] {body}")
-        if e.code == 429:
-            raise Exception("This demo runs on a free-tier AI quota that's temporarily exhausted. Please try again in a few minutes.")
         raise
 
 
